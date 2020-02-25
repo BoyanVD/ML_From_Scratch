@@ -1,0 +1,39 @@
+\documentclass{article}
+\renewcommand{\thesection}{\Roman{section}} 
+\usepackage{amsmath}
+\begin{document}
+\title{Linear Regression}
+\author{Boyan Dafov}
+\maketitle
+\newpage
+\section{Solving the 1-D problem}
+	First we are going to define and solve the linear regression problem for one independant and one dependant variable. We are looking for the "best fitting line" for random 2D data points. The equation we are looking to build looks like that:
+\begin{equation*}
+\hat{y} = a * x + b
+\end{equation*}
+	Where "y" and "x" are given for every data point. Lets the fine the "Error" function, assuming that we have "n" data points given :
+\begin{equation*}
+E = \sum_{i=1}^{n} (\hat{y_i} - y_i) ^ 2
+\text{, where } 
+\hat{y_i} 
+\text{ is the prediction for }
+x_i
+\end{equation*}
+Now we are looking for the model, that gives us the minimum "Error function" result. First we are going to use that:
+\begin{equation*}
+\hat{y_i} = a * x_i + b
+\end{equation*}
+Substitute it in the "Error function" above and get :
+\begin{equation*}
+E = \sum_{i=1}^{n} (a * x_i + b - y_i) ^ 2
+\text{, where we are given } 
+y_i 
+\text{ and }
+x_i
+\text{ for every i }
+\end{equation*}
+To find the values for "a" and "b", we are going to take the derivatives of the function with respect first to "a" and than to "b":
+\section{Solving the multidimensional problem}
+
+
+\end{document}
