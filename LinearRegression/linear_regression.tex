@@ -1,6 +1,6 @@
 \documentclass{article}
 \renewcommand{\thesection}{\Roman{section}} 
-\usepackage{amsmath}
+\usepackage{amsmath, systeme}
 \begin{document}
 \title{Linear Regression}
 \author{Boyan Dafov}
@@ -33,7 +33,77 @@ x_i
 \text{ for every i }
 \end{equation*}
 To find the values for "a" and "b", we are going to take the derivatives of the function with respect first to "a" and than to "b":
+\begin{equation*}
+\frac{\partial E}{\partial a} = \sum_{i=1}^{n} 2 * (y_i - (a * x_i + b)) * (-x_i)
+\end{equation*}
+\begin{equation*}
+\frac{\partial E}{\partial b} = \sum_{i=1}^{n} 2 * (y_i - (a * x_i + b)) * (-1)
+\end{equation*}
+Now we are going to simplify and set them to 0 and get the following system with two equations and two unknowns :
+\begin{align*}
+  a * \sum_{i=1}^{n} x_i^2 + b * \sum_{i=1}^{n} x_i &= \sum_{i=1}^{n} y_i * x_i \\
+  a * \sum_{i=1}^{n} x_i + b * n &= \sum_{i=1}^{n} y_i
+\end{align*}
+Let $\sum_{n=1}^{n} x_i^2 = c$ , $\sum_{n=1}^{n} x_i = d$ , $\sum_{n=1}^{n} x_i * y_i = e$ , $\sum_{n=1}^{n} y_i = f$ and get the following system : 
+\begin{equation*}
+  \systeme{
+  a * c + b * d = e,
+  a * d + b * n = f
+  }
+\end{equation*}
+There are many ways to solve it for both "a" and "b", but as a result we get 
+$b = \frac{e * d - f * c \hfill}{d^2 - n * c}$ and $a = \frac{e * n - f * d \hfill}{n * c - d^2}$ 
+
 \section{Solving the multidimensional problem}
+We are given set of pairs - vector of independant variables and dependant (prediction) variable 
+$\{(x_1, y_1), (x_2, y_2),\dots \}$. Lets define the letter d - dimensionality. Our model for the multidimensional solution should look like that :
+\begin{equation*}
+\hat{y} = w ^ T * x + b
+\end{equation*}
+Keep in mind that "w" should be "d" - dimensional vector, x is "N x D" matrix, where N - number of samples, D - number of features (dimensionality). We make the following transformations :
+\begin{equation*}
+\hat{y} = w ^ T * x + b \Leftrightarrow \hat{y} = b + w_1 * x_1 + \dots\ + w_d * x_d
+\text{, let } 
+b = w_0
+\text{ and }
+x_0 = 1
+\text{ and get : }
+\end{equation*}
+\begin{equation*}
+\hat{y} = w_0 * x_0 + w_1 * x_1 + \dots\ + w_d * x_d \implies \hat{y} = \hat{w} ^ T * \hat{x}
+\end{equation*}
+We define the problem like that, because it makes the calculation of multiple predictions clearer (and more optimal when it comes to computation, especially if you use library that supports matrix arithmetics like python's numpy).\\
+Now we are going to define the "Error" function :
+\begin{equation*}
+E = \sum_{i=1}^{n} (y_i - \hat{y_i}) ^ 2 = \sum_{i=1}^{n} (y_i - w ^ T * x_i) ^ 2
+\end{equation*}
+We still can take the derivative with respect to any component of "w" - $\hat{w_j}$, where $j = 1,\dots\ ,d$ . Let's see how does the derivative $\frac{\partial E}{\partial w_j}$ look like:
+\begin{equation*}
+\frac{\partial E}{\partial w_j} = \sum_{i=1}^{n} 2 * (y_i - w ^ T * w_j) * (-\frac{\partial w^T * x_i}{\partial w_j}) = \sum_{i=1}^{n} 2 * (y_i - w ^ T * x_i) * ( - x_{ij}) = \sum_{i=1}^{n} y_i * (-x_{ij}) - \sum_{i=1}^{n} w^T * x_i * (-x_{ij})
+\end{equation*}
+Since  $j = 1,\dots\ ,d$, we set all derivatives to 0 and get "d" equations with "d" unknowns
+\begin{align*}
+  \sum_{i=1}^{n} y_i * (-x_{i1}) = \sum_{i=1}^{n} w^T * x_i * (-x_{i1})\\
+  \dots\ \\
+  \dots\ \\
+  \dots\ \\
+  \sum_{i=1}^{n} y_i * (-x_{id}) = \sum_{i=1}^{n} w^T * x_i * (-x_{id})
+\end{align*}
+\begin{align*}
+\text{We have that } a^T * b = \sum_{i=1}^{n} a_i * b_i \implies w^T * (X^T * X) = y^T * X \text{, we transpose the equation :} \\
+[w^T(X^T * X)]^T = [y^T * X]^T \implies (X^T * X) * w = X^T * y \implies w = (X^T * X) ^ (-1) * X^T * y
+\end{align*}
 
-
+\section{R-squared value}
+We are going to define the R-squared value, which is used to determine how good our model is :
+\begin{align*}
+R^2 = 1 -  \frac{SSres \hfill}{SStot} \text{, where }
+\end{align*}
+\begin{equation*}
+SSres = \sum_{i=1}^{n} (y_i - \hat{y_i}) ^ 2
+\end{equation*}
+\begin{equation*}
+SStot = \sum_{i=1}^{n} (y_i - \bar{y}) ^ 2
+\end{equation*}
+Where $\bar{y}$ is the mean value of all $y_i$ given. When $R^2$ is closer to 1, our SSres is closer to 0, which means that our model is good. When $R^2$ is closer to 0, it means that our model predicted just the mean value of all $y_i$.
 \end{document}
