@@ -75,7 +75,7 @@ x_0 = 1
 We define the problem like that, because it makes the calculation of multiple predictions clearer (and more optimal when it comes to computation, especially if you use library that supports matrix arithmetics like python's numpy).\\
 Now we are going to define the "Error" function :
 \begin{equation*}
-E = \sum_{i=1}^{n} (y_i - \hat{y_i}) ^ 2 = \sum_{i=1}^{n} (y_i - w ^ T * x_i) ^ 2
+E = \sum_{i=1}^{n} (y_i - \hat{y_i}) ^ 2 = \sum_{i=1}^{n} (y_i - \hat{w} ^ T * x_i) ^ 2
 \end{equation*}
 We still can take the derivative with respect to any component of "w" - $\hat{w_j}$, where $j = 1,\dots\ ,d$ . Let's see how does the derivative $\frac{\partial E}{\partial w_j}$ look like:
 \begin{equation*}
