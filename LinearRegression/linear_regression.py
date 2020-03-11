@@ -113,6 +113,20 @@ class LinearRegression:
         for d in range(deg):
             data.append(self.X**(d + 1))
         self.X = np.vstack(data).T
+        
+    def l2_regularization(self, lambda2):
+        """
+        Applies L2 Regularization to the model, modifiyng the matrix, used in
+        predictions calculations.
+        
+        Parameters:
+            lambda2(float): The lamda constant value, used to calculate the L2 regularization matrix.
+        
+        Returns:
+            Nothing.
+        """
+        w_reg = np.linalg.solve(lambda2*np.eye(self.X.shape[0]) + self.X.T.dot(self.X), self.X.T.dot(self.Y))
+        self.w = w_reg
 
     def show_model_info(self):
         print("The matrix, used for the predictions calculations is : w = ", self.w)
