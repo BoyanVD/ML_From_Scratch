@@ -125,8 +125,35 @@ class LinearRegression:
         Returns:
             Nothing.
         """
-        w_reg = np.linalg.solve(lambda2*np.eye(self.X.shape[0]) + self.X.T.dot(self.X), self.X.T.dot(self.Y))
+        w_reg = np.linalg.solve(lambda2*np.eye(self.X.shape[1]) + self.X.T.dot(self.X), self.X.T.dot(self.Y))
         self.w = w_reg
+        
+    def gradient_descent(self, steps, learning_rate = 0.001):
+        """
+        Applies alternative to the closed calculation of the "w" matrix, used by the model to make
+        predictions. This method is really useful for bypassing the dummy varieble trap or any other
+        problem, that may occur when calculating the matrix using the traditional way (for example getting not invertable matrix).
+        In result, this method updates the model's prediction matrix.
+        
+        Parameters:
+            steps(int) : the number of steps that you want the gradient descent to do in its way to the goal.
+            learning_rate : It's optional, the default value is 0.001 . This value is used for coefficient, that represents
+            the 'size' of every step, that the algorithm makes.
+            
+        Returns:
+            Nothing.
+        """
+        costs = []
+        Dim = self.X.shape[1]
+        N = self.X.shape[0]
+        w_grad = np.random.rand(Dim) / np.sqrt(Dim)
+        for t in range(steps):
+            y_pred = self.X.dot(w_grad)
+            delta = y_pred - self.Y
+            w_grad = w_grad - learning_rate * self.X.T.dot(delta)
+            mean_squared_error = delta.dot(delta) / N
+            costs.append(mean_squared_error)
+        self.w = w_grad
 
     def show_model_info(self):
         print("The matrix, used for the predictions calculations is : w = ", self.w)
