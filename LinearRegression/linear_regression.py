@@ -167,6 +167,29 @@ class LinearRegression:
         Returns:
             Nothing.
         """
+        Dim = self.X.shape[1]
+        N = self.X.shape[0]
+        w_grad = np.random.rand(Dim) / np.sqrt(Dim)
+        for t in range(steps):
+            y_pred = self.X.dot(w_grad)
+            delta = y_pred - self.Y
+            w_grad = w_grad - learning_rate * self.X.T.dot(delta)
+        self.w = w_grad
+
+    def gradient_descent_with_mean_squared_calculation(self, steps, learning_rate = 0.001):
+        """
+        Performs gradient descent, but apart from updating the matrix used for calculating predictions, it returns
+        the mean squared errors matrix. The idea of this method is to provide functionality for testing different
+        learning rate and number of gradient descent steps values.
+        
+        Parameters:
+            steps(int) : the number of steps that you want the gradient descent to do in its way to the goal.
+            learning_rate : It's optional, the default value is 0.001 . This value is used for coefficient, that represents
+            the 'size' of every step, that the algorithm makes.
+            
+        Returns:
+            costs(matrix) : the matrix containing the mean squared errors.
+        """
         costs = []
         Dim = self.X.shape[1]
         N = self.X.shape[0]
@@ -177,7 +200,7 @@ class LinearRegression:
             w_grad = w_grad - learning_rate * self.X.T.dot(delta)
             mean_squared_error = delta.dot(delta) / N
             costs.append(mean_squared_error)
-        self.w = w_grad
+        return costs
 
     def show_model_info(self):
         print("The matrix, used for the predictions calculations is : w = ", self.w)
