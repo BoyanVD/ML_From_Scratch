@@ -113,6 +113,30 @@ class LinearRegression:
         for d in range(deg):
             data.append(self.X**(d + 1))
         self.X = np.vstack(data).T
+
+    def l1_regularization(self, lambda1, learning_rate = 0.001, steps = 500):
+        """
+        Applies L1 Regularization to the model, modifiyng the matrix, used in
+        predictions calculations. For calculating the L1 Regularization matrix 
+        the method uses gradient descent technique.
+        
+        Parameters:
+            lambda1(float): The lamda constant value, used to calculate the L2 regularization matrix.
+            learning_rate(float): The parameter used for gradient descent learning rate.
+            steps(int): The number of steps for the gradient descent alghorithm.
+        
+        Returns:
+            Nothing.
+        """
+        Dimensionality = self.X.shape[1]
+        w_reg = np.random.randn(Dimensionality) / np.sqrt(Dimensionality) # randomly initialize w
+
+        for step in range(steps):
+            y_pred = X.dot(w_reg)
+            delta = y_pred - self.Y
+            w_reg = w_reg - learning_rate*(X.T.dot(delta) + lambda1*np.sign(w_reg))
+
+        self.w = w_reg
         
     def l2_regularization(self, lambda2):
         """
