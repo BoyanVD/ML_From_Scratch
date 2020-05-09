@@ -24,7 +24,7 @@ class LinearRegression:
         self.X = X
         self.Y = Y
         
-        if filename == "" :
+        if filename != "" :
             self.read(filename)
         elif X and Y :
             self.fit(X, Y)

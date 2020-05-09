@@ -106,4 +106,22 @@ SSres = \sum_{i=1}^{n} (y_i - \hat{y_i}) ^ 2
 SStot = \sum_{i=1}^{n} (y_i - \bar{y}) ^ 2
 \end{equation*}
 Where $\bar{y}$ is the mean value of all $y_i$ given. When $R^2$ is closer to 1, our SSres is closer to 0, which means that our model is good. When $R^2$ is closer to 0, it means that our model predicted just the mean value of all $y_i$.
+
+\section{L1 and L2 Regularization}
+I am not going to go into the mathematical details about that, but there is something very common in ML, called "overfitting".  In general overfitting is when your model matches the datapoints so well, that it looses the ability of making good predictions on new datapoints.  That's why we want noise data to influence the output. The are two very common ways of approaching this problem in linear regression and they are L1 and L2 regularizations. Both of them are updating the "Error function" and adding an extra penalty to it. We will look at both of them and than we are going to see what are the differences between them.
+\subsection{L1 Regularization (Lasso Regression)}
+In L1 Regularization, the "Error function" looks like that :
+\begin{equation*}
+E = \sum_{i=1}^{n}(y_i - \hat{y_i})^2 + \lambda * \sum_{i=1}^{p}|w_i|
+\end{equation*}
+You can try to find the optimal weights by taking the derivatives but you will find out that it is not possible (i won't cover this here, but you can try it yourself). That's why you have to apply gradient descent for the solution. The idea of L1 Regularization is to select a small number of important features, that will
+be used for the predictions calculation. After you apply L1 to your model you will get few non-zero weights and the others are going to be equal to zero.  This comes from the fact that the derivative of the penalty term in L1 is absolute function (+1, -1, 0). After performing gradient descent we will se that after the derivative gets 0, it will stop changing the weights "w".
+\subsection{L2 Regularization (Ridge Regression)}
+In L2 Regularization, the "Error function" looks like that :
+\begin{equation*}
+E = \sum_{i=1}^{n}(y_i - \hat{y_i})^2 + \lambda * \sum_{i=1}^{p}w_i^2
+\end{equation*}
+The L2 Regularization penaltizes very large and disproportional weights. Let's take the derivative of L2 in order to perform gradient descent:
+
+
 \end{document}
