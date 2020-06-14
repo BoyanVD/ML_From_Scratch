@@ -28,6 +28,24 @@ class NeuralNetwork :
 			self.weights.append(weight)
 			self.biases.append(bias)
 
+	def feed_forward(self, X):
+		Z = np.copy(X)
+		A_values = [] # Values before activation functions in neurons (Neurons input)
+		Z_values = [Z] # Values after activation functions in neurons (Neurons output)
+
+		for index in range(len(self.weights)):
+			function = NeuralNetwork.activation(self.layers_activation_functions[index])
+			layer_weights = self.weights[index]
+			layer_biases = self.biases[index]
+
+			A = Z.dot(layer_weights) + layer_biases
+			A_values.append(A)
+
+			Z = function(A)
+			Z_values.append(Z)
+
+		return A_values, Z_values
+
 	@staticmethod
 	def softmax(a):
 		expA = np.exp(a)
